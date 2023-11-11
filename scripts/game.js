@@ -6,6 +6,11 @@ let welcomeText = document.getElementById("level-title");
 const container = document.querySelector(".container");
 const everything=document.querySelector("body");
 
+
+document.addEventListener('keydown',()=>{
+    startGame();
+})  
+
 function buttonSound(button) {
     let audio = new Audio();
 
@@ -23,23 +28,19 @@ function buttonSound(button) {
 }
 
 function startGame() {
-    nextRound();
+    next_round();
 }
 
-document.addEventListener('keydown',()=>{
-    startGame();
-})  
-
-function nextRound() {
+function next_round() {
     level += 1;
-    levelIndicator(level);
+    level_indicator(level);
     const nextSequence = [...sequence];
-    nextSequence.push(getRandomTile());
+    nextSequence.push(get_random_tile());
     playButton(nextSequence);
     sequence = [...nextSequence];
 }
 
-function levelIndicator(level) {
+function level_indicator(level) {
     if(is_starting)
         welcomeText.innerText = "Level " + level;
     else 
@@ -49,7 +50,7 @@ function levelIndicator(level) {
     }
 }
 
-function getRandomTile() {
+function get_random_tile() {
     const tiles = ['red', 'blue', 'green', 'yellow'];
     const random = tiles[Math.floor(Math.random() * tiles.length)];
     return random;
@@ -58,12 +59,12 @@ function getRandomTile() {
 function playButton(nextSequence) {
     nextSequence.forEach((color, index) => {
         setTimeout(() => {
-            activateTile(color);
+            activate_tile_animation(color);
         }, (index + 1) * 600);
     });
 }
 
-function activateTile(lastColor) {
+function activate_tile_animation(lastColor) {
     const tile = document.querySelector(`[data-tile='${lastColor}']`);
     tile.classList.add('pressed');
     buttonSound(lastColor);
@@ -74,35 +75,37 @@ function activateTile(lastColor) {
 
 container.addEventListener('click', event => {
     const { tile } = event.target.dataset;
-    console.log(tile + " was clicked");
     if (tile) player_clicks(tile);
 });
 
 
 function player_clicks(tile) {
     const index=human.push(tile)-1;
-    activateTile(tile)
+    activate_tile_animation(tile)
     if(human[index]!=sequence[index]){
-        restart_game("Game Over, Press Any Key to restart")
+        restart_game("Game Over, Press Any Key to Restart")
         return;
     }
     if(human.length==sequence.length){
         human=[];
         setTimeout(()=>{
-            nextRound();
+            next_round();
         },1000);
     }
     return;
 }
 
 function restart_game(text){
+    let audio = new Audio();
     sequence=[]
     human=[]
     level=0
     everything.classList.add("game-over");
+    audio.src="./sounds/wrong.mp3";
+    audio.play();
     setTimeout(()=>{
         everything.classList.remove("game-over");
     },300);
     is_starting=0;
-    levelIndicator(text);
+    level_indicator(text);
 }
