@@ -1,8 +1,10 @@
 let sequence = [];
 let human = [];
 let level = 0;
+let is_starting=1;
 let welcomeText = document.getElementById("level-title");
 const container = document.querySelector(".container");
+const everything=document.querySelector("body");
 
 function buttonSound(button) {
     let audio = new Audio();
@@ -38,7 +40,13 @@ function nextRound() {
 }
 
 function levelIndicator(level) {
-    welcomeText.innerText = "Level " + level;
+    if(is_starting)
+        welcomeText.innerText = "Level " + level;
+    else 
+    {        
+        welcomeText.innerText=level;
+        is_starting=1;
+    }
 }
 
 function getRandomTile() {
@@ -73,7 +81,7 @@ container.addEventListener('click', event => {
 
 function player_clicks(tile) {
     const index=human.push(tile)-1;
-    buttonSound(tile);
+    activateTile(tile)
     if(human[index]!=sequence[index]){
         restart_game("Game Over, Press Any Key to restart")
         return;
@@ -91,5 +99,10 @@ function restart_game(text){
     sequence=[]
     human=[]
     level=0
+    everything.classList.add("game-over");
+    setTimeout(()=>{
+        everything.classList.remove("game-over");
+    },300);
+    is_starting=0;
     levelIndicator(text);
 }
