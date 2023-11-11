@@ -11,3 +11,7 @@ document.onclick= function(event) {
 
 };
 
+function level_indicator(){
+    welcome_text.innerText="Level "+level;
+}
+
