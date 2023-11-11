@@ -30,14 +30,14 @@ document.addEventListener('keydown',()=>{
 
 function nextRound() {
     level += 1;
-    levelIndicator();
+    levelIndicator(level);
     const nextSequence = [...sequence];
     nextSequence.push(getRandomTile());
     playButton(nextSequence);
     sequence = [...nextSequence];
 }
 
-function levelIndicator() {
+function levelIndicator(level) {
     welcomeText.innerText = "Level " + level;
 }
 
@@ -74,6 +74,10 @@ container.addEventListener('click', event => {
 function player_clicks(tile) {
     const index=human.push(tile)-1;
     buttonSound(tile);
+    if(human[index]!=sequence[index]){
+        restart_game("Game Over, Press Any Key to restart")
+        return;
+    }
     if(human.length==sequence.length){
         human=[];
         setTimeout(()=>{
@@ -83,3 +87,9 @@ function player_clicks(tile) {
     return;
 }
 
+function restart_game(text){
+    sequence=[]
+    human=[]
+    level=0
+    levelIndicator(text);
+}
