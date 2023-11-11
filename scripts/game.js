@@ -65,7 +65,7 @@ function playButton(nextSequence) {
 }
 
 function activate_tile_animation(lastColor) {
-    const tile = document.querySelector(`[data-tile='${lastColor}']`);
+    const tile = document.querySelector(`[id='${lastColor}']`);
     tile.classList.add('pressed');
     buttonSound(lastColor);
     setTimeout(() => {
