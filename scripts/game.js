@@ -15,3 +15,13 @@ function level_indicator(){
     welcome_text.innerText="Level "+level;
 }
 
+function next_Round(){
+    level+=1;
+    const next_Sequence=[...sequence];
+}
+
+function add_new_tile(){
+    const tiles=['red','blue','green','yellow'];
+    const random = tiles[Math.floor(Math.random() * tiles.length)];
+    return random;
+}
