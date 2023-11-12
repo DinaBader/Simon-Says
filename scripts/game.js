@@ -60,17 +60,17 @@ function playButton(nextSequence) {
     nextSequence.forEach((color, index) => {
         setTimeout(() => {
             activate_tile_animation(color);
-        }, (index + 1) * 600);
+        }, (index + 1) * 500);
     });
 }
 
 function activate_tile_animation(lastColor) {
-    const tile = document.querySelector(`[id='${lastColor}']`);
+    const tile = document.getElementById(lastColor);
     tile.classList.add('pressed');
     buttonSound(lastColor);
     setTimeout(() => {
         tile.classList.remove('pressed');
-    }, 300);
+    }, 400);
 }
 
 container.addEventListener('click', event => {
